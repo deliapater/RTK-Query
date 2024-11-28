@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { useGetPostsQuery } from './features/posts/postsApiSlice';
 
 function App() {
+  const { data: posts, error, isLoading } = useGetPostsQuery();
+
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Error loading posts.</p>;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Posts</h1>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>
+            <h2>{post.title}</h2>
+            <p>{post.body}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
